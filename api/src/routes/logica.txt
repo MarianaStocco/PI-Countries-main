@@ -1,0 +1,32 @@
+GET /countries:
+En una primera instancia deberán traer todos los países desde la API restcountries y guardarlos en su propia base de datos con todos los campos de la tabla countries
+
+
+Línea 11 -- De esta ruta obtendré un listado de los paises.
+
+Por query recibiré un pais por nombre...
+
+Dentro del try, a partir línea 15, guardo en una variable la consulta a la api de todos los paises
+y hago la consulta a la base de datos, si está vacía(línea 18), traigo los datos de la API.
+
+En la propiedad data mapeo la info de paises y añado cada propiedad que necesito a la tabla countries.
+cca3, es como viene definido en API el id (PK) de cada país.
+name, en API es un objeto, una de sus propiedades es common, de donde obtengo el nombre común del país.
+flags, es un array de dos strings y requiero el segundo, cuya posición es 1.
+capital, si no tiene capital reconocida, indico un valor por defecto.
+si no tiene subregion, indico un valor por defecto. 
+
+Línea 34 -- Si llega un nombre por query, guardo el resultado en una variable y filtro el contenido para que muestre el resultado que matchea con el string nombre recibido por query...
+Que encuentre en Country, todos los países donde el nombre igual al pasado por query, que incluya el modelo Actividad, donde se relacionan las dos tablas, a través del atributo "nombre".
+Usé un ternario, y en la línea 50, le indico que si no llega ningún nombre por query, traiga el listado de todos los países de mi bd.
+
+Luego de las comprobaciones, se responde con un status 200 y un json, donde mapeo cada uno de las propiedades del objeto país y le añado las actividades, las cuales también mapeo para convertirla en array de strings
+
+Línea 77 -- Catch error,    
+
+GET /countries/{idPais}:
+Obtener el detalle de un país en particular
+Debe traer solo los datos pedidos en la ruta de detalle de país
+Incluir los datos de las actividades turísticas correspondientes
+
+Consulto en la base de datos el pais con la PK que llega por params, dentro del try y ,de existir el país, se muestra el detalle, caso contrario, en el catch se muestra el error.
